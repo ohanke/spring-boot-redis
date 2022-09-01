@@ -20,7 +20,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public Product findById(int id){
+    public Product findById(@PathVariable Long id){
         return productDao.findById(id);
     }
 
@@ -30,7 +30,7 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    public String deleteById(@PathVariable int id){
+    public String deleteById(@PathVariable Long id){
         return productDao.deleteById(id);
     }
 }
