@@ -3,6 +3,8 @@ package com.oscarhanke.springbootredis.controller;
 import com.oscarhanke.springbootredis.entity.Product;
 import com.oscarhanke.springbootredis.repository.ProductDao;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
+    @Cacheable(key = "#id", value = "Product", unless = "#result.price > 1000")
     public Product findById(@PathVariable Long id){
         return productDao.findById(id);
     }
@@ -30,6 +33,7 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
+    @CacheEvict(key = "#id", value = "Product")
     public String deleteById(@PathVariable Long id){
         return productDao.deleteById(id);
     }
